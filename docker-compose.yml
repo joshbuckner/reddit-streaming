@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    environment:
+      - NODE_ENV=development
+  backend:
+    image: "jmbuckner/reddit-streaming-server"
+    ports:
+      - "8080:8080"
