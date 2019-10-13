@@ -1,0 +1,45 @@
+.comment {
+  // border-left: solid rgb(77, 75, 75) 1px;
+  display: flex;
+  .comment__vote {
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    img {
+      height: 16px;
+      display: block;
+      margin: 3px 0;
+      &.vote-up {
+        transform: rotate(-90deg);
+      }
+      &.vote-down {
+        transform: rotate(90deg);
+      }
+    }
+    .comment__division {
+      margin: 5px auto 0;
+      // padding-left: 1px;
+      height: 100%;
+      border-right: solid rgb(77, 75, 75) 2px;
+    }
+  }
+  .comment__block {
+    .comment__header {
+      display: flex;
+      justify-content: space-between;
+      .comment__user {
+        display: inline;
+        color: rgb(79, 188, 255);
+      }
+      .comment__timestamp {
+        display: inline;
+      }
+    }
+    .comment__body {
+      // border: solid rgb(77, 75, 75) 1px;
+      border-radius: 2.5px;
+      margin-top: 4px;
+      padding: 2px 8px 8px;
+    }
+  }
+}
