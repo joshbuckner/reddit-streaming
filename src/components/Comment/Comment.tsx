@@ -2,27 +2,45 @@ import React from 'react'
 import './Comment.scss';
 import Arrow from '../../assets/images/arrow.svg'
 
-const Comment: React.FC = () => {
+interface Props {
+  comment: string
+  author: string
+  timestamp: number
+  depth: number
+}
+
+const Comment: React.FC<Props> = ({ comment, author, timestamp, depth }) => {
+  const htmlDecode = (input: any) => {
+    const e = document.createElement('div')
+    e.innerHTML = input
+    if (!e.childNodes || e.childNodes.length === 0 || !e.childNodes[0].nodeValue) {
+      return ""
+    }
+    return e.childNodes[0].nodeValue
+  }
   return (
-    <div className="comment">
+    <div className="comment" style={{ marginLeft: `${depth * 20}px` }}>
       <div className="comment__vote">
         <img 
           className="vote-up" 
-          src={Arrow} 
+          src={Arrow}
+          alt="vote-up"
         />
         <img 
           className="vote-down" 
           src={Arrow} 
-        />
+          alt="vote-down"
+        /> 
         <div className="comment__division"></div>
       </div>
       <div className="comment__block">
         <div className="comment__header">
-          <div className="comment__user">FisherKang</div>
-          <div className="comment__timestamp">2:36pm</div>
+          <a className="comment__user" href={`https://www.reddit.com/user/${author}`}>{author}</a>
+          <div className="comment__timestamp">2:36PM</div>
         </div>
-        <div className="comment__body">
-          The amount of times "every voice matters" is repeated during their declaration doesnt really add with banning. The good thing, the banning produced such uproar that blizz is full on damage control.
+        <div 
+          className="comment__body" 
+          dangerouslySetInnerHTML={{ __html: htmlDecode(comment) }}>
         </div>
       </div>
     </div>

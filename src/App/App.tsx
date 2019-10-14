@@ -15,7 +15,7 @@ const App: React.FC = () => {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/r/:subreddit/comments/:commentid">
+        <Route path="/r/:subreddit/comments/:threadID/:threadSlug">
           <Thread />
         </Route>
         <Route path="*">

@@ -1,31 +1,86 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './Thread.scss';
 import Comment from '../../components/Comment/Comment'
 
 interface Params {
   subreddit?: string
-  commentid?: string
+  threadID?: string
+  threadSlug?: string
 }
 
-const getData = async (subSlug: any, commentID: any) => {
-  try {
-    const response = await fetch(`http://localhost:8080/get?subSlug=${subSlug}&commentID=${commentID}`)
-    const json = await response.json();
-    console.log("Data: ", json)
-  } catch (error) {
-    console.log("error: ", error)
+var commentsList:any = []
+
+const getComments = (comment:any) => {
+  if (!comment) {
+    return
+  }
+  commentsList.push(comment)
+  if (comment.data.replies.data.children) {
+    comment.data.replies.data.children.forEach((reply:any) => getComments(reply))
   }
   return
 }
 
 const Thread: React.FC = () => {
-  const { subreddit, commentid } :Params = useParams()
-  getData(subreddit, commentid)
+  const [comments, setComments] = useState()
+  const { subreddit, threadID, threadSlug } :Params = useParams()
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/get?subSlug=${subreddit}&threadID=${threadID}&threadSlug=${threadSlug}&commentID=${threadID}`)
+        const json = await response.json();
+        console.log("Data: ", json)
+        setComments(json)
+      } catch (error) {
+        console.log("error: ", error)
+      }
+      return
+    }
+    getData()
+  }, [subreddit, threadID, threadSlug])
+  if (comments) {
+    comments.data.children.forEach((comment:any) => getComments(comment))
+  }
   return (
-    <div className="thread">
-      {/* <div>Now showing {commentid} from {subreddit}</div> */}
-      <Comment/>
+    <div>
+      {comments ? 
+        <div className="thread">
+          {commentsList.map((comment:any, index:number) => 
+            comment.kind !== 'more' 
+              ? 
+              <Comment 
+                key={index} 
+                comment={comment.data.body_html} 
+                author={comment.data.author}
+                timestamp={comment.data.Created}
+                depth={comment.data.depth}
+              /> 
+              :
+              <div 
+                key={index}
+                style={{
+                  marginLeft: `${comment.data.depth * 20}px`, 
+                  marginBottom: '15px', 
+                  fontSize: '12px',
+                  fontFamily: 'IBMPlexSans, Arial, sans-serif',
+                  fontWeight: 'bold'
+                }} 
+              >
+                <a 
+                  href={`reddit.com`}
+                  style={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  1 more reply
+                </a>
+              </div>
+          )}
+        </div>
+      : 
+        <div style={{color: 'white', textAlign: 'center'}}>Loading...</div>
+      }
     </div>
   )
 }
