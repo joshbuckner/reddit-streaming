@@ -5,11 +5,11 @@ import Arrow from '../../assets/images/arrow.svg'
 interface Props {
   comment: string
   author: string
-  timestamp: number
+  created: number
   depth: number
 }
 
-const Comment: React.FC<Props> = ({ comment, author, timestamp, depth }) => {
+const Comment: React.FC<Props> = ({ comment, author, created, depth }) => {
   const htmlDecode = (input: any) => {
     const e = document.createElement('div')
     e.innerHTML = input
@@ -36,7 +36,7 @@ const Comment: React.FC<Props> = ({ comment, author, timestamp, depth }) => {
       <div className="comment__block">
         <div className="comment__header">
           <a className="comment__user" href={`https://www.reddit.com/user/${author}`}>{author}</a>
-          <div className="comment__timestamp">2:36PM</div>
+          <div className="comment__timestamp">{new Date(created*1000).toLocaleTimeString()}</div>
         </div>
         <div 
           className="comment__body" 

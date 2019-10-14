@@ -43,44 +43,50 @@ const Thread: React.FC = () => {
     comments.data.children.forEach((comment:any) => getComments(comment))
   }
   return (
-    <div>
-      {comments ? 
-        <div className="thread">
-          {commentsList.map((comment:any, index:number) => 
-            comment.kind !== 'more' 
-              ? 
-              <Comment 
-                key={index} 
-                comment={comment.data.body_html} 
-                author={comment.data.author}
-                timestamp={comment.data.Created}
-                depth={comment.data.depth}
-              /> 
-              :
-              <div 
-                key={index}
+    comments ? 
+      <div className="thread">
+        {commentsList.map((comment:any, index:number) => 
+          comment.kind !== 'more' 
+            ? 
+            <Comment 
+              key={index} 
+              comment={comment.data.body_html} 
+              author={comment.data.author}
+              created={comment.data.created_utc}
+              depth={comment.data.depth}
+            /> 
+            :
+            <div 
+              key={index}
+              style={{
+                marginLeft: `${comment.data.depth * 20}px`, 
+                marginBottom: '15px', 
+                fontSize: '12px',
+                fontFamily: 'IBMPlexSans, Arial, sans-serif',
+                fontWeight: 'bold'
+              }} 
+            >
+              <a 
+                href={`reddit.com`}
                 style={{
-                  marginLeft: `${comment.data.depth * 20}px`, 
-                  marginBottom: '15px', 
-                  fontSize: '12px',
-                  fontFamily: 'IBMPlexSans, Arial, sans-serif',
-                  fontWeight: 'bold'
-                }} 
+                  textDecoration: 'none',
+                }}
               >
-                <a 
-                  href={`reddit.com`}
-                  style={{
-                    textDecoration: 'none',
-                  }}
-                >
-                  1 more reply
-                </a>
-              </div>
-          )}
-        </div>
-      : 
-        <div style={{color: 'white', textAlign: 'center'}}>Loading...</div>
-      }
+                1 more reply
+              </a>
+            </div>
+        )}
+      </div>
+    : 
+    <div className="loader">
+      <div className="loader-inner pacman">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div><span className="tooltip">
+        <p>pacman</p></span>
     </div>
   )
 }
