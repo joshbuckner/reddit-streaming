@@ -12,3 +12,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url('../../assets/fonts/NotoSans/NotoSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: "IBMPlexSans";
+  src: url('../../assets/fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: "IBMPlexSans";
+  src: url('../../assets/fonts/IBM_Plex_Sans/IBMPlexSans-Medium.ttf');
+  font-weight: bold;
+}

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './Thread.scss';
 import Comment from '../../components/Comment/Comment'
+import Loader from '../../components/Loader/Loader'
+import ReplyTrunc from '../../components/ReplyTrunc/ReplyTrunc'
 
 interface Params {
   subreddit?: string
@@ -9,7 +11,7 @@ interface Params {
   threadSlug?: string
 }
 
-var commentsList:any = []
+let commentsList:any = []
 
 const getComments = (comment:any) => {
   if (!comment) {
@@ -46,8 +48,7 @@ const Thread: React.FC = () => {
     comments ? 
       <div className="thread">
         {commentsList.map((comment:any, index:number) => 
-          comment.kind !== 'more' 
-            ? 
+          comment.kind !== 'more' ?
             <Comment 
               key={index} 
               comment={comment.data.body_html} 
@@ -55,39 +56,15 @@ const Thread: React.FC = () => {
               created={comment.data.created_utc}
               depth={comment.data.depth}
             /> 
-            :
-            <div 
-              key={index}
-              style={{
-                marginLeft: `${comment.data.depth * 20}px`, 
-                marginBottom: '15px', 
-                fontSize: '12px',
-                fontFamily: 'IBMPlexSans, Arial, sans-serif',
-                fontWeight: 'bold'
-              }} 
-            >
-              <a 
-                href={`reddit.com`}
-                style={{
-                  textDecoration: 'none',
-                }}
-              >
-                1 more reply
-              </a>
-            </div>
+          :
+          <ReplyTrunc 
+            key={index} 
+            depth={comment.data.depth}
+          />
         )}
       </div>
     : 
-    <div className="loader">
-      <div className="loader-inner pacman">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div><span className="tooltip">
-        <p>pacman</p></span>
-    </div>
+    <Loader/>
   )
 }
 

@@ -1,21 +1,7 @@
-@font-face {
-  font-family: "Noto Sans";
-  src: url('../../assets/fonts/NotoSans/NotoSans-Regular.ttf');
-}
-
-@font-face {
-  font-family: "IBMPlexSans";
-  src: url('../../assets/fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf');
-}
-
-@font-face {
-  font-family: "IBMPlexSans";
-  src: url('../../assets/fonts/IBM_Plex_Sans/IBMPlexSans-Medium.ttf');
-  font-weight: bold;
-}
+@import '../../variables';
 
 blockquote {
-  border-left: 4px solid rgba(215,218,220,0.2);
+  border-left: 4px solid $secondary-color;
   margin: 4px 0 4px 8px!important;
   padding-left: 8px;
 }
@@ -23,8 +9,9 @@ blockquote {
 .comment {
   display: flex;
   margin-bottom: 15px;
-  font-family: "Noto Sans",Arial,sans-serif;
+  font-family: $primary-font;
   .comment__vote {
+    position: relative;
     padding: 0 10px;
     display: flex;
     flex-direction: column;
@@ -40,9 +27,10 @@ blockquote {
       }
     }
     .comment__division {
-      border-right: solid rgb(77, 75, 75) 2px;
-      height: 100%;
-      margin: 5px auto 0;
+      border-right: solid $disabled-color 2px;
+      position: absolute;
+      left: 17px;
+      top: 47px;
     }
   }
   .comment__block {
@@ -54,24 +42,23 @@ blockquote {
       .comment__user {
         display: inline;
         font-family: IBMPlexSans, Arial, sans-serif;
-        font-size: 12px;
+        font-size: $small-font-size;
         text-decoration: none;
         &:hover {
           text-decoration: underline;
         }
       }
       .comment__timestamp {
-        color: #818384;
+        color: $secondary-color;
         display: inline;
-        font-size: 12px;
+        font-size: $small-font-size;
       }
     }
     .comment__body {
       border-radius: 2.5px;
-      font-size: 14px;
+      font-size: $medium-font-size;
       margin-right: 40px;
       max-width: 780px;
-      // padding: 0 8px 0 0;
     }
   }
 }
