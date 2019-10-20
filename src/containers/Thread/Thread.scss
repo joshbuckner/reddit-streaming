@@ -7,6 +7,7 @@
   margin: 50px auto 0;
   max-width: 960px;
   padding: 20px 10px;
+  line-height: 21px;
   a {
     color: $highlight-color;
   }
@@ -16,5 +17,22 @@
   blockquote {
     margin-top: 0;
   }
-  line-height: 21px;
+  hr {
+    border-color: $disabled-color;
+  }
+  table {
+    text-align: center;
+    border-collapse: collapse;
+    border: 3px solid #eee;
+    margin-bottom: 14px;
+    th {
+      text-align: center;
+      border: solid 1px #eee;
+      padding: 4px 8px;
+    }
+    td {
+      border: solid 1px #eee;
+      padding: 4px 8px;
+    }
+  }
 }
