@@ -15,16 +15,16 @@ code {
 
 @font-face {
   font-family: "Noto Sans";
-  src: url('../../assets/fonts/NotoSans/NotoSans-Regular.ttf');
+  src: url('./assets/fonts/NotoSans/NotoSans-Regular.ttf');
 }
 
 @font-face {
   font-family: "IBMPlexSans";
-  src: url('../../assets/fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf');
+  src: url('./assets/fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf');
 }
 
 @font-face {
   font-family: "IBMPlexSans";
-  src: url('../../assets/fonts/IBM_Plex_Sans/IBMPlexSans-Medium.ttf');
+  src: url('./assets/fonts/IBM_Plex_Sans/IBMPlexSans-Medium.ttf');
   font-weight: bold;
 }

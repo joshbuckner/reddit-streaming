@@ -28,22 +28,25 @@ const Thread: React.FC = () => {
   const [comments, setComments] = useState()
   const { subreddit, threadID, threadSlug } :Params = useParams()
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/get?subSlug=${subreddit}&threadID=${threadID}&threadSlug=${threadSlug}&commentID=${threadID}`)
-        const json = await response.json();
-        console.log("Data: ", json)
-        setComments(json)
-      } catch (error) {
-        console.log("error: ", error)
-      }
-      return
+    const socket = new WebSocket('ws://localhost:8080/ws')
+    socket.onopen = () => {
+      socket.send(JSON.stringify({subSlug: subreddit, threadID: threadID, threadSlug: threadSlug, commentID: threadID}))
     }
-    getData()
-  }, [subreddit, threadID, threadSlug])
+    socket.onmessage = (event) => {
+      // setComments(JSON.parse(event.data))
+      setComments((prevComments:any) => {
+        return {...prevComments, ...JSON.parse(event.data)}
+      })
+    }
+    return () => {
+      socket.close()
+    }
+  },[subreddit, threadID, threadSlug])
+
   if (comments) {
     comments.data.children.forEach((comment:any) => getComments(comment))
   }
+
   return (
     comments ? 
       <div className="thread">

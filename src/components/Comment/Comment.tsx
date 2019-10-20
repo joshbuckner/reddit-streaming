@@ -17,7 +17,7 @@ const Comment: React.FC<Props> = ({ comment, author, created, depth }) => {
     if (ref.current) {
       setHeight(ref.current.clientHeight)
     }
-    console.log(height)
+    // console.log(height)
   }, [height])
 
   const htmlDecode = (input: any) => {
