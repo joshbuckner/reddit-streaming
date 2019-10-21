@@ -3,9 +3,10 @@ import './ReplyTrunc.scss';
 
 interface Props {
   depth: number
+  count: number
 }
 
-const Loader: React.FC<Props> = ({ depth }) => {
+const Loader: React.FC<Props> = ({ depth, count }) => {
   return (
     <div 
       className="reply-trunc"
@@ -20,7 +21,7 @@ const Loader: React.FC<Props> = ({ depth }) => {
           textDecoration: 'none',
         }}
       >
-        1 more reply
+        {count === 1 ? '1 more reply' : `${count} more replies`}
       </a>
     </div>
   )

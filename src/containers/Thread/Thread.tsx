@@ -5,28 +5,29 @@ import Comment from '../../components/Comment/Comment'
 import Loader from '../../components/Loader/Loader'
 import ReplyTrunc from '../../components/ReplyTrunc/ReplyTrunc'
 
+const socket = new WebSocket('ws://localhost:8080/ws')
+
 interface Params {
   subreddit?: string
   threadID?: string
   threadSlug?: string
 }
 
-
-
-let scrollPosition = 0
-
-
 const Thread: React.FC = () => {
   const [comments, setComments] = useState<any>([])
   const { subreddit, threadID, threadSlug } :Params = useParams()
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:8080/ws')
     socket.onopen = () => {
       socket.send(JSON.stringify({subSlug: subreddit, threadID: threadID, threadSlug: threadSlug, commentID: threadID}))
     }
-    socket.onmessage = (event) => {
+    return () => {
+      socket.close()
+    }
+  },[subreddit, threadID, threadSlug])
 
+  useEffect(() => {
+    socket.onmessage = (event) => {
       const newComments = JSON.parse(event.data)
       const commentsList:any = []
 
@@ -45,32 +46,35 @@ const Thread: React.FC = () => {
         newComments.data.children.forEach((comment:any) => getComments(comment))
       }
 
-      // setComments((prevComments:any) => {
-      //   return {...prevComments, ...commentsList}
-      // })
-
-      setComments([...commentsList, ...comments])
-
-      console.log(comments)
-
-      // setComments(commentsMerged)
-
-      console.log('message recieved')
-      console.log(scrollPosition)
-      
-      let { scrollTop, scrollHeight } = document.documentElement
-      scrollTop = scrollTop >= scrollHeight ? scrollHeight : scrollPosition
+      const commentsMerged = [...comments]
+      commentsList.forEach((comment:any) => {
+        const i = commentsMerged.findIndex((commentCompare) => {
+          return commentCompare.data.id === comment.data.id
+        })
+        if (i === -1) {
+          if (comment.data.depth !== 0) {
+            const parentIndex = commentsMerged.findIndex((parent) => {
+              return comment.data.parent_id.includes(parent.data.id)
+            })
+            commentsMerged.splice(parentIndex+1, 0, comment)
+          } else {
+            commentsMerged.push(comment)
+          }
+        } else {
+          commentsMerged[i] = comment
+        }
+      })
+      console.log(commentsMerged.length)
+      setComments(commentsMerged)
+      window.scrollTo(0, document.documentElement.scrollHeight)
     }
-    return () => {
-      socket.close()
-    }
-  },[subreddit, threadID, threadSlug])
+  },[comments])
 
   useEffect(() => {
     const handleScroll = () => {
-      console.log(document.documentElement.scrollTop)
-      let { scrollTop } = document.documentElement
-      scrollPosition = scrollTop
+      // console.log(document.documentElement.scrollTop, document.documentElement.scrollHeight)
+      // let { scrollTop } = document.body
+      // scrollPosition = scrollTop
     }
     window.addEventListener('scroll', handleScroll)
     return () => {
@@ -94,6 +98,7 @@ const Thread: React.FC = () => {
           <ReplyTrunc 
             key={comment.data.id} 
             depth={comment.data.depth}
+            count={comment.data.count}
           />
         )}
       </div>
