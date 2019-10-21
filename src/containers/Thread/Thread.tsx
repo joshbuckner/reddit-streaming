@@ -15,6 +15,7 @@ interface Params {
 
 const Thread: React.FC = () => {
   const [comments, setComments] = useState<any>([])
+  const [scrollLock, setScrollLock] = useState<any>(false)
   const { subreddit, threadID, threadSlug } :Params = useParams()
 
   useEffect(() => {
@@ -30,6 +31,7 @@ const Thread: React.FC = () => {
     socket.onmessage = (event) => {
       const newComments = JSON.parse(event.data)
       const commentsList:any = []
+      const commentsMerged = [...comments]
 
       const getComments = (comment:any) => {
         if (!comment) {
@@ -46,7 +48,6 @@ const Thread: React.FC = () => {
         newComments.data.children.forEach((comment:any) => getComments(comment))
       }
 
-      const commentsMerged = [...comments]
       commentsList.forEach((comment:any) => {
         const i = commentsMerged.findIndex((commentCompare) => {
           return commentCompare.data.id === comment.data.id
@@ -64,17 +65,24 @@ const Thread: React.FC = () => {
           commentsMerged[i] = comment
         }
       })
+
       console.log(commentsMerged.length)
       setComments(commentsMerged)
-      window.scrollTo(0, document.documentElement.scrollHeight)
+       
+      if (scrollLock) {
+        window.scrollTo(0, document.documentElement.scrollHeight)
+      }
     }
   },[comments])
 
   useEffect(() => {
     const handleScroll = () => {
-      // console.log(document.documentElement.scrollTop, document.documentElement.scrollHeight)
-      // let { scrollTop } = document.body
-      // scrollPosition = scrollTop
+      if (document.documentElement.scrollTop >= document.documentElement.scrollHeight - 969) {
+        setScrollLock(true)
+        console.log('at bottom of page')
+      } else {
+        setScrollLock(false)
+      }
     }
     window.addEventListener('scroll', handleScroll)
     return () => {
@@ -97,6 +105,7 @@ const Thread: React.FC = () => {
           :
           <ReplyTrunc 
             key={comment.data.id} 
+            id={comment.data.id}
             depth={comment.data.depth}
             count={comment.data.count}
           />
