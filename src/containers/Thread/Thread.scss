@@ -4,9 +4,9 @@
   background: $base-color;
   border-radius: 5px;
   color: $primary-color;
-  margin: 50px auto 0;
+  margin: 50px auto 50px;
   max-width: 960px;
-  padding: 20px 10px;
+  padding: 20px 10px 10px;
   line-height: 21px;
   a {
     color: $highlight-color;
@@ -16,6 +16,9 @@
   }
   blockquote {
     margin-top: 0;
+    border-left: 4px solid $secondary-color;
+    margin: 4px 0 4px 8px!important;
+    padding-left: 8px;
   }
   hr {
     border-color: $disabled-color;
