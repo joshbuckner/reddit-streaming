@@ -1,15 +1,18 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useEffect, useRef, useState } from 'react'
 import './Comment.scss';
 import Arrow from '../../assets/images/arrow.svg'
 
 interface Props {
+  id: number
   comment: string
   author: string
   created: number
   depth: number
+  parentID: number
+  replies: any
 }
 
-const Comment: React.FC<Props> = ({ comment, author, created, depth }) => {
+const Comment: React.FC<Props> = ({ id, comment, author, created, depth, parentID, replies }) => {
   const [height, setHeight] = useState(0)
   const ref = useRef<HTMLInputElement>(null)
 
@@ -17,8 +20,14 @@ const Comment: React.FC<Props> = ({ comment, author, created, depth }) => {
     if (ref.current) {
       setHeight(ref.current.clientHeight)
     }
-    // console.log(height)
   }, [height])
+
+  useEffect(() => {
+    if (replies) {
+      console.log(replies)
+      
+    }
+  },[replies])
 
   const htmlDecode = (input: any) => {
     const e = document.createElement('div')

@@ -70,14 +70,16 @@ const Thread: React.FC = () => {
       setComments(commentsMerged)
        
       if (scrollLock) {
+        console.log('scroll to bottom')
         window.scrollTo(0, document.documentElement.scrollHeight)
       }
     }
-  },[comments])
+  },[comments, scrollLock])
 
   useEffect(() => {
     const handleScroll = () => {
-      if (document.documentElement.scrollTop >= document.documentElement.scrollHeight - 969) {
+      console.log('handle scroll', document.documentElement.scrollTop, document.documentElement.scrollHeight - 979)
+      if (document.documentElement.scrollTop >= document.documentElement.scrollHeight - 979) {
         setScrollLock(true)
         console.log('at bottom of page')
       } else {
@@ -97,10 +99,13 @@ const Thread: React.FC = () => {
           comment.kind !== 'more' ?
             <Comment 
               key={comment.data.id} 
+              id={comment.data.id}
               comment={comment.data.body_html} 
               author={comment.data.author}
               created={comment.data.created_utc}
               depth={comment.data.depth}
+              parentID={comment.data.parent_id}
+              replies={comment.data.replies.data.children}
             /> 
           :
           <ReplyTrunc 
