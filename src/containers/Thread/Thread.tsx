@@ -38,6 +38,9 @@ const Thread: React.FC = () => {
           return
         }
         commentsList.push(comment)
+        if (comment.kind === 'more') {
+          console.log(comment)
+        }
         if (comment.data.replies.data.children) {
           comment.data.replies.data.children.forEach((reply:any) => getComments(reply))
         }
@@ -70,7 +73,6 @@ const Thread: React.FC = () => {
       setComments(commentsMerged)
        
       if (scrollLock) {
-        console.log('scroll to bottom')
         window.scrollTo(0, document.documentElement.scrollHeight)
       }
     }
@@ -78,10 +80,9 @@ const Thread: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      console.log('handle scroll', document.documentElement.scrollTop, document.documentElement.scrollHeight - 979)
+      // console.log('handle scroll', document.documentElement.scrollTop, document.documentElement.scrollHeight - 979)
       if (document.documentElement.scrollTop >= document.documentElement.scrollHeight - 979) {
         setScrollLock(true)
-        console.log('at bottom of page')
       } else {
         setScrollLock(false)
       }
@@ -104,13 +105,12 @@ const Thread: React.FC = () => {
               author={comment.data.author}
               created={comment.data.created_utc}
               depth={comment.data.depth}
-              parentID={comment.data.parent_id}
-              replies={comment.data.replies.data.children}
             /> 
           :
           <ReplyTrunc 
             key={comment.data.id} 
             id={comment.data.id}
+            parentID={comment.data.parent_id}
             depth={comment.data.depth}
             count={comment.data.count}
           />

@@ -5,9 +5,10 @@ interface Props {
   depth: number
   count: number
   id: number
+  parentID: number
 }
 
-const Loader: React.FC<Props> = ({ depth, count, id }) => {
+const Loader: React.FC<Props> = ({ depth, count, id, parentID }) => {
   return (
     <div 
       className="reply-trunc"
@@ -15,7 +16,7 @@ const Loader: React.FC<Props> = ({ depth, count, id }) => {
     >
       <div 
         className="more-replies"
-        onClick={() => console.log(`open replies for id ${id}`)}
+        onClick={() => console.log(`open replies for id:${id}, parentID:${parentID}`)}
       >
         {count === 1 ? '1 more reply' : `${count} more replies`}
       </div>

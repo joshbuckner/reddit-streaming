@@ -6,6 +6,8 @@
   font-family: 'IBMPlexSans', Arial, sans-serif;
   font-weight: bold;
   .more-replies {
+    user-select: none;
+    margin-left: 37px;
     display: inline;
     cursor: pointer;
     color: $highlight-color;

@@ -8,11 +8,9 @@ interface Props {
   author: string
   created: number
   depth: number
-  parentID: number
-  replies: any
 }
 
-const Comment: React.FC<Props> = ({ id, comment, author, created, depth, parentID, replies }) => {
+const Comment: React.FC<Props> = ({ id, comment, author, created, depth }) => {
   const [height, setHeight] = useState(0)
   const ref = useRef<HTMLInputElement>(null)
 
@@ -21,13 +19,6 @@ const Comment: React.FC<Props> = ({ id, comment, author, created, depth, parentI
       setHeight(ref.current.clientHeight)
     }
   }, [height])
-
-  useEffect(() => {
-    if (replies) {
-      console.log(replies)
-      
-    }
-  },[replies])
 
   const htmlDecode = (input: any) => {
     const e = document.createElement('div')
