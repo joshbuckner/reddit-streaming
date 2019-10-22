@@ -29,48 +29,89 @@ const Thread: React.FC = () => {
 
   useEffect(() => {
     socket.onmessage = (event) => {
-      const newComments = JSON.parse(event.data)
-      const commentsList:any = []
+      const newComments = JSON.parse(event.data).data.children
       const commentsMerged = [...comments]
 
-      const getComments = (comment:any) => {
-        if (!comment) {
+      const searchOldComments = (oldComment: any, newComment: any) => {
+        if (!oldComment) {
           return
         }
-        commentsList.push(comment)
-        if (comment.kind === 'more') {
-          console.log(comment)
+        if (oldComment.data.id === newComment.data.id) {
+          // continue here and set new comment
+          console.log('comment already exists')
         }
-        if (comment.data.replies.data.children) {
-          comment.data.replies.data.children.forEach((reply:any) => getComments(reply))
+        if (oldComment.data.replies.data.children) {
+          oldComment.data.replies.data.children.forEach((reply:any) => searchOldComments(reply, newComment))
         }
         return
       }
 
-      if (newComments) {
-        newComments.data.children.forEach((comment:any) => getComments(comment))
+      const traverseComments = (newComment: any) => {
+        comments.forEach((oldComment: any) => {
+          searchOldComments(oldComment, newComment)
+        })
       }
 
-      commentsList.forEach((comment:any) => {
-        const i = commentsMerged.findIndex((commentCompare) => {
-          return commentCompare.data.id === comment.data.id
-        })
-        if (i === -1) {
-          if (comment.data.depth !== 0) {
-            const parentIndex = commentsMerged.findIndex((parent) => {
-              return comment.data.parent_id.includes(parent.data.id)
-            })
-            commentsMerged.splice(parentIndex+1, 0, comment)
-          } else {
-            commentsMerged.push(comment)
-          }
-        } else {
-          commentsMerged[i] = comment
+      const searchNewComments = (comment: any) => {
+        if (!comment) {
+          return
         }
-      })
+        traverseComments(comment)
+        if (comment.data.replies.data.children) {
+          comment.data.replies.data.children.forEach((reply:any) => searchNewComments(reply))
+        }
+        return
+      }
 
-      console.log(commentsMerged.length)
-      setComments(commentsMerged)
+      if (comments.length === 0) {
+        console.log('no comments')
+        setComments(newComments)
+      } else {
+        setComments(newComments)
+        // newComments.forEach((comment: any) => {
+        //   searchNewComments(comment)
+        // })
+      }
+
+      // console.log(JSON.parse(event.data).data.children)
+      // setComments(JSON.parse(event.data).data.children)
+      // const newComments = JSON.parse(event.data)
+      // const commentsList:any = []
+      // const commentsMerged = [...comments]
+
+      // const getComments = (comment:any) => {
+      //   if (!comment) {
+      //     return
+      //   }
+      //   commentsList.push(comment)
+      //   if (comment.data.replies.data.children) {
+      //     comment.data.replies.data.children.forEach((reply:any) => getComments(reply))
+      //   }
+      //   return
+      // }
+
+      // if (newComments) {
+      //   newComments.data.children.forEach((comment:any) => getComments(comment))
+      // }
+
+      // commentsList.forEach((comment:any) => {
+      //   const i = commentsMerged.findIndex((commentCompare) => {
+      //     return commentCompare.data.id === comment.data.id
+      //   })
+      //   if (i === -1) {
+      //     if (comment.data.depth !== 0) {
+      //       const parentIndex = commentsMerged.findIndex((parent) => {
+      //         return comment.data.parent_id.includes(parent.data.id)
+      //       })
+      //       commentsMerged.splice(parentIndex+1, 0, comment)
+      //     } else {
+      //       commentsMerged.push(comment)
+      //     }
+      //   } else {
+      //     commentsMerged[i] = comment
+      //   }
+      // })
+      // setComments(commentsMerged)
        
       if (scrollLock) {
         window.scrollTo(0, document.documentElement.scrollHeight)
@@ -96,7 +137,7 @@ const Thread: React.FC = () => {
   return (
     comments ? 
       <div className="thread">
-        {comments.map((comment:any, index:number) => 
+        {comments.map((comment:any) => 
           comment.kind !== 'more' ?
             <Comment 
               key={comment.data.id} 
@@ -105,6 +146,7 @@ const Thread: React.FC = () => {
               author={comment.data.author}
               created={comment.data.created_utc}
               depth={comment.data.depth}
+              replies={comment.data.replies.data.children}
             /> 
           :
           <ReplyTrunc 

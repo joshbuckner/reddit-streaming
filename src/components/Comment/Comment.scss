@@ -15,12 +15,10 @@
 
 .comment {
   display: flex;
-  margin-bottom: 15px;
   font-family: $primary-font;
   animation: slide-up 0.4s ease;
   .comment__vote {
-    position: relative;
-    padding: 0 10px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     img {
@@ -35,14 +33,14 @@
       }
     }
     .comment__division {
-      border-right: solid $disabled-color 2px;
-      position: absolute;
-      left: 17px;
-      top: 47px;
+      margin: 2px auto 0;
+      border-right: solid $faded-color 2px;
+      height: calc(100% - 48px);
     }
   }
   .comment__block {
     width: 100%;
+    padding-left: 6px;
     .comment__header {
       display: flex;
       justify-content: space-between;
