@@ -2,12 +2,10 @@
 
 @keyframes slide-up {
   0% {
-    // opacity: 0;
     background: rgba(0,128,0,0.6);
     transform: translateY(20px);
   }
   100% {
-    // opacity: 1;
     background: rgba(0,128,0,0);
     transform: translateY(0);
   }
@@ -35,36 +33,64 @@
     .comment__division {
       margin: 2px auto 0;
       border-right: solid $faded-color 2px;
-      height: calc(100% - 48px);
+      height: calc(100% - 50px);
     }
   }
   .comment__block {
     width: 100%;
-    padding-left: 6px;
-    .comment__header {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 8px 0 0;
-      .comment__user {
-        display: inline;
-        font-family: IBMPlexSans, Arial, sans-serif;
-        font-size: $small-font-size;
-        text-decoration: none;
-        &:hover {
-          text-decoration: underline;
+    padding-left: 8px;
+    .comment__content {
+      padding-bottom: 10px;
+      .comment__header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 8px 0 0;
+        .comment__user {
+          display: inline;
+          font-family: IBMPlexSans, Arial, sans-serif;
+          font-size: $small-font-size;
+          text-decoration: none;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+        .comment__timestamp {
+          color: $secondary-color;
+          display: inline;
+          font-size: $small-font-size;
         }
       }
-      .comment__timestamp {
-        color: $secondary-color;
-        display: inline;
-        font-size: $small-font-size;
+      .comment__body {
+        border-radius: 2.5px;
+        font-size: $medium-font-size;
+        margin-right: 40px;
+        max-width: 780px;
+        padding: 4px 0 8px;
       }
-    }
-    .comment__body {
-      border-radius: 2.5px;
-      font-size: $medium-font-size;
-      margin-right: 40px;
-      max-width: 780px;
+      .comment__footer {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-family: IBMPlexSans, Arial, sans-serif;
+        font-weight: bold;
+        color: $secondary-color;
+        font-size: 13px;
+        text-decoration: none;
+        user-select: none;
+        svg {
+          margin-top: 1px;
+          height: 14px;
+          margin-right: 4px;
+          fill: #818384;
+        }
+        &:hover {
+          text-decoration: underline;
+          color: $primary-color;
+          svg {
+            fill: $primary-color;
+          }
+        }
+      }
     }
   }
 }
