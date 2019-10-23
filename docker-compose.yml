@@ -13,5 +13,7 @@ services:
       - NODE_ENV=development
   backend:
     image: "jmbuckner/reddit-streaming-server"
+    environment:
+      - MOCK=${MOCK}
     ports:
       - "8080:8080"
