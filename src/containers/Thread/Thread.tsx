@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import './Thread.scss';
 import Comment from '../../components/Comment/Comment'
@@ -13,10 +13,15 @@ interface Params {
   threadSlug?: string
 }
 
-const Thread: React.FC = () => {
+interface Props {
+  scrollable: boolean
+}
+
+const Thread: React.FC<Props> = ({ scrollable }) => {
   const [comments, setComments] = useState<any>([])
   const [scrollLock, setScrollLock] = useState<any>(false)
   const { subreddit, threadID, threadSlug } :Params = useParams()
+  const scrollableRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     socket.onopen = () => {
@@ -116,12 +121,14 @@ const Thread: React.FC = () => {
       if (scrollLock) {
         window.scrollTo(0, document.documentElement.scrollHeight)
       }
+      if (scrollable && scrollableRef.current) {
+        scrollableRef.current.scrollTo(0, scrollableRef.current.scrollHeight)
+      }
     }
   },[comments, scrollLock])
 
   useEffect(() => {
     const handleScroll = () => {
-      // console.log('handle scroll', document.documentElement.scrollTop, document.documentElement.scrollHeight - 979)
       if (document.documentElement.scrollTop >= document.documentElement.scrollHeight - 979) {
         setScrollLock(true)
       } else {
@@ -136,7 +143,11 @@ const Thread: React.FC = () => {
 
   return (
     comments ? 
-      <div className="thread">
+      <div 
+        className="thread" 
+        style={{ height: scrollable ? '73vh' : '', overflowY: scrollable ? 'scroll' : 'auto', margin: scrollable ? '0 auto' : '50px auto'}}
+        ref={scrollableRef}
+      >
         {comments.map((comment:any) => 
           comment.kind !== 'more' ?
             <Comment 
