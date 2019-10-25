@@ -9,9 +9,10 @@ interface Props {
   created: number
   depth: number
   replies: any
+  index: number
 }
 
-const Comment: React.FC<Props> = ({ id, comment, author, created, depth, replies }) => {
+const Comment: React.FC<Props> = ({ index, id, comment, author, created, depth, replies }) => {
   const htmlDecode = (input: any) => {
     const e = document.createElement('div')
     e.innerHTML = input
@@ -25,7 +26,7 @@ const Comment: React.FC<Props> = ({ id, comment, author, created, depth, replies
     <div>
       <div 
         className="comment" 
-        style={{ marginBottom: depth === 0 ? '20px' : '0', marginTop: depth > 0 ? '10px' : '0' }}
+        style={{ marginBottom: depth === 0 ? '4px' : '0', marginTop: depth > 0 ? '0' : '0'}}
       >
         <div className="comment__vote">
           <img 
@@ -63,7 +64,7 @@ const Comment: React.FC<Props> = ({ id, comment, author, created, depth, replies
               className="comment__body" 
               dangerouslySetInnerHTML={{ __html: htmlDecode(comment) }}>
             </div>
-            <div className="comment__footer">
+            {/* <div className="comment__footer">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <g>
                   <path fill="none" d="M0 0h24v24H0z"/>
@@ -71,10 +72,11 @@ const Comment: React.FC<Props> = ({ id, comment, author, created, depth, replies
                 </g>
               </svg>
               Reply
-            </div>
+            </div> */}
           </div>
           {replies && replies.map((reply:any) => 
             <Comment 
+              index={index}
               key={reply.data.id} 
               id={reply.data.id}
               comment={reply.data.body_html} 

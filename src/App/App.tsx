@@ -17,7 +17,8 @@ const App: React.FC = () => {
           <Landing />
         </Route>
         <Route path="/r/:subreddit/comments/:threadID/:threadSlug">
-          <Thread scrollable={false} />
+          <Landing />
+          {/* <Thread scrollable={false} /> */}
         </Route>
         <Route path="*">
           <NotFound />

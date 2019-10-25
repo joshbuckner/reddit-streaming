@@ -23,6 +23,17 @@ const Thread: React.FC<Props> = ({ scrollable }) => {
   const { subreddit, threadID, threadSlug } :Params = useParams()
   const scrollableRef = useRef<HTMLDivElement>(null)
 
+    // window.scrollTo(0, document.documentElement.scrollHeight)
+    // setTimeout(() => {
+    //   window.scrollTo(0, document.documentElement.scrollHeight)
+    // }, 100)
+    // setTimeout(() => {
+    //   window.scrollTo({
+    //     behavior: "smooth",
+    //     top: document.documentElement.scrollHeight
+    //   });
+    // }, 1000);
+
   useEffect(() => {
     socket.onopen = () => {
       socket.send(JSON.stringify({subSlug: subreddit, threadID: threadID, threadSlug: threadSlug, commentID: threadID}))
@@ -71,6 +82,7 @@ const Thread: React.FC<Props> = ({ scrollable }) => {
       if (comments.length === 0) {
         console.log('no comments')
         setComments(newComments)
+        window.scrollTo(0, document.documentElement.scrollHeight)
       } else {
         setComments(newComments)
         // newComments.forEach((comment: any) => {
@@ -117,27 +129,43 @@ const Thread: React.FC<Props> = ({ scrollable }) => {
       //   }
       // })
       // setComments(commentsMerged)
+      
        
       if (scrollLock) {
         window.scrollTo(0, document.documentElement.scrollHeight)
       }
-      if (scrollable && scrollableRef.current) {
-        scrollableRef.current.scrollTo(0, scrollableRef.current.scrollHeight)
-      }
+      // if (scrollable && scrollableRef.current && scrollLock) {
+      //   scrollableRef.current.scrollTo(0, scrollableRef.current.scrollHeight)
+      // }
     }
   },[comments, scrollLock])
 
   useEffect(() => {
     const handleScroll = () => {
-      if (document.documentElement.scrollTop >= document.documentElement.scrollHeight - 979) {
+      // if (scrollableRef.current) {
+      //   if (scrollableRef.current.scrollTop >= scrollableRef.current.scrollHeight - 745) {
+      //     setScrollLock(true)
+      //   } else {
+      //     setScrollLock(false)
+      //   }
+      // }
+      if (document.documentElement.scrollTop + document.documentElement.clientHeight === document.documentElement.scrollHeight) {
         setScrollLock(true)
       } else {
         setScrollLock(false)
       }
     }
-    window.addEventListener('scroll', handleScroll)
+    // if (scrollableRef.current) {
+    //   scrollableRef.current.addEventListener('scroll', handleScroll)
+    // }
+    // return () => {
+    //   if (scrollableRef.current) {
+    //     scrollableRef.current.removeEventListener('scroll', handleScroll)
+    //   }
+    // }
+    document.addEventListener('scroll', handleScroll)
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('scroll', handleScroll)
     }
   },[])
 
@@ -145,12 +173,13 @@ const Thread: React.FC<Props> = ({ scrollable }) => {
     comments ? 
       <div 
         className="thread" 
-        style={{ height: scrollable ? '73vh' : '', overflowY: scrollable ? 'scroll' : 'auto', margin: scrollable ? '0 auto' : '50px auto'}}
+        style={{  margin: scrollable ? '0 auto' : '50px auto'}}
         ref={scrollableRef}
       >
-        {comments.map((comment:any) => 
+        {comments.map((comment:any, index:number) => 
           comment.kind !== 'more' ?
             <Comment 
+              index={index}
               key={comment.data.id} 
               id={comment.data.id}
               comment={comment.data.body_html} 
