@@ -4,25 +4,33 @@
   height: 100%;
   width: 100%;
   font-family: $primary-font;
+  color: $primary-color;
   .content {
     display: flex;
     justify-content: center;
-    color: $primary-color;
     .instructions {
       border: solid 1px $faded-color;
       background: $base-color;
-      margin: 50px 10px;
+      margin: 50px auto;
       width: 1080px;
       border-radius: 5px;
       text-align: center;
-      padding: 10px 0;
+      @media screen and (max-width: 1100px) {
+        border: none;
+        border-radius: 0;
+      }
       .text-container {
         max-width: 634px;
         margin: 0 auto;
+        padding: 0 20px;
+        text-align: left;
+        @media screen and (max-width: 768px) {
+          text-align: center;
+        }
         .instructions__text {
-          text-align: left;
           font-size: $medium-font-size;
           margin: 20px 0;
+          display: inline-block;
         }
       }
       .instructions__button {
