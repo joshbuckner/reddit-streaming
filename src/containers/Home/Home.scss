@@ -1,49 +1,42 @@
 @import '../../variables';
 
 .home {
-  // background: $base-color;
-  border-radius: 5px;
-  color: $primary-color;
-  margin: 0 auto 0;
-  max-width: 960px;
-  padding: 10px;
-  text-align: center;
+  height: 100%;
+  width: 100%;
   font-family: $primary-font;
-  // line-height: 21px;
-  img {
-    margin-top: 10px;
-  }
-  .home__heading {
-    font-size: 50px;
-    // padding: 25px 0;
-  }
-  .home__instructions {
-    // background: $secondary-color;
-    // background-image: linear-gradient(to bottom right, $base-color, $disabled-color);
-    border-radius: 5px;
-    margin: 25px auto 0;
-    padding: 20px;
-    // max-width: 700px;
-    // height: 100%;
-  }
-  .home__step {
+  .content {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px 0;
-  }
-  .home__button {
-    display: inline-block;
-    // margin: 0 auto;
-    // background: $secondary-color;
-    margin: 10px 0;
-    border: solid 1px $secondary-color;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    user-select: none;
-    &:hover {
-      background: $disabled-color;
+    justify-content: center;
+    color: $primary-color;
+    .instructions {
+      border: solid 1px $faded-color;
+      background: $base-color;
+      margin: 50px 10px;
+      width: 1080px;
+      border-radius: 5px;
+      text-align: center;
+      padding: 10px 0;
+      .text-container {
+        max-width: 634px;
+        margin: 0 auto;
+        .instructions__text {
+          text-align: left;
+          font-size: $medium-font-size;
+          margin: 20px 0;
+        }
+      }
+      .instructions__button {
+        display: inline-block;
+        margin: 20px 0;
+        border: solid 1px $secondary-color;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        user-select: none;
+        &:hover {
+          background: $faded-color;
+        }
+      }
     }
   }
   .highlight {

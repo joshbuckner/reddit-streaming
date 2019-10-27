@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom'
 import Thread from '../containers/Thread/Thread'
 import Home from '../containers/Home/Home'
-import Landing from '../containers/Landing/Landing'
 import NotFound from '../containers/NotFound/NotFound'
 
 const App: React.FC = () => {
@@ -14,11 +13,10 @@ const App: React.FC = () => {
     <Router>
       <Switch>
         <Route exact path="/">
-          <Landing />
+          <Home />
         </Route>
         <Route path="/r/:subreddit/comments/:threadID/:threadSlug">
-          <Landing />
-          {/* <Thread scrollable={false} /> */}
+          <Thread />
         </Route>
         <Route path="*">
           <NotFound />

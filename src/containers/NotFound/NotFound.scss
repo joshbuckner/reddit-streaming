@@ -1,0 +1,11 @@
+@import '../../variables';
+
+.not-found {
+  height: 100vh;
+  font-size: $large-font-size;
+  color: $primary-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

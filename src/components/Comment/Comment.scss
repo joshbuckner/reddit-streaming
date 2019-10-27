@@ -67,30 +67,6 @@
         max-width: 780px;
         padding: 4px 0 4px;
       }
-      .comment__footer {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        font-family: IBMPlexSans, Arial, sans-serif;
-        font-weight: bold;
-        color: $secondary-color;
-        font-size: 13px;
-        text-decoration: none;
-        user-select: none;
-        svg {
-          margin-top: 1px;
-          height: 14px;
-          margin-right: 4px;
-          fill: #818384;
-        }
-        &:hover {
-          text-decoration: underline;
-          color: $primary-color;
-          svg {
-            fill: $primary-color;
-          }
-        }
-      }
     }
   }
 }
