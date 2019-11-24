@@ -1,5 +1,7 @@
 ## Reddit Streaming
 
+<img src="https://i.imgur.com/DdK7Djs.mp4">
+
 ## Getting Started
 
 ### Clone the Repo
