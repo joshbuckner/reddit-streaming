@@ -16,8 +16,7 @@ In the project directory, you can:
 
 ### Build and Run Docker Containers
 
-`docker-compose pull`
-`docker-compose up -d`
+`docker-compose pull && docker-compose up -d`
 
 ### Stop Docker Containers
 
