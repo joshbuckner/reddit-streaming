@@ -1,6 +1,7 @@
 ## Reddit Streaming
 
 Change "reddit.com" to "reddit-streaming.com" in any comment thread on reddit to view a live stream of incoming comments in real time<br>
+<br>
 <img src="https://s5.gifyu.com/images/reddit-streaming-gif.gif">
 
 ## Getting Started
