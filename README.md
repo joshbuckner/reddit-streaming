@@ -1,6 +1,6 @@
 ## Reddit Streaming
 
-<img src="https://gifyu.com/image/vgxm">
+<img src="https://s5.gifyu.com/images/reddit-streaming-gif.gif">
 
 ## Getting Started
 
