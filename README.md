@@ -10,7 +10,7 @@ Change `reddit.com` to `reddit-streaming.com` in any comment thread on reddit to
 
 `git clone https://github.com/joshbuckner/reddit-streaming.git`
 
-Enter the Project Directory:
+Navigate to the project directory:
 
 `cd reddit-streaming`
 
