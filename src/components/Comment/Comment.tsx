@@ -34,58 +34,60 @@ const Comment: React.FC<Props> = ({
   };
 
   return (
-    <div>
-      <div
-        className="comment"
-        style={{
-          marginBottom: depth === 0 ? "4px" : "0",
-          marginTop: depth > 0 ? "0" : "0"
-        }}
-      >
-        <div className="comment__vote">
-          <img className="vote-up" src={Arrow} alt="vote-up" />
-          <img className="vote-down" src={Arrow} alt="vote-down" />
-          <div className="comment__division"></div>
-        </div>
-        <div className="comment__block">
-          <div className="comment__content">
-            <div
-              className="comment__header"
-              style={{ justifyContent: depth > 0 ? "flex-start" : "" }}
+    <div
+      className="comment"
+      style={{
+        marginBottom: depth === 0 ? "4px" : "0",
+        marginTop: depth > 0 ? "0" : "0"
+      }}
+    >
+      <div className="comment__vote">
+        <img className="vote-up" src={Arrow} alt="vote-up" />
+        <img className="vote-down" src={Arrow} alt="vote-down" />
+        <div className="comment__division"></div>
+      </div>
+      <div className="comment__block">
+        <div className="comment__content">
+          <div
+            className="comment__header"
+            style={{ justifyContent: depth > 0 ? "flex-start" : "" }}
+          >
+            <a
+              className="comment__user"
+              href={`https://www.reddit.com/user/${author}`}
             >
-              <a
-                className="comment__user"
-                href={`https://www.reddit.com/user/${author}`}
-              >
-                {author}
-              </a>
-              <div
-                className="comment__timestamp"
-                style={{ marginLeft: depth > 0 ? "6px" : "" }}
-              >
-                {new Date(created * 1000).toLocaleTimeString()}
-              </div>
-            </div>
+              {author}
+            </a>
             <div
-              className="comment__body"
-              dangerouslySetInnerHTML={{ __html: htmlDecode(body) }}
-            ></div>
+              className="comment__timestamp"
+              style={{ marginLeft: depth > 0 ? "6px" : "" }}
+            >
+              {new Date(created * 1000).toLocaleTimeString()}
+            </div>
           </div>
-          {replies &&
-            replies.data &&
-            replies.data.children &&
-            replies.data.children.map(reply => (
+          <div
+            className="comment__body"
+            dangerouslySetInnerHTML={{ __html: htmlDecode(body) }}
+          ></div>
+        </div>
+        {replies &&
+          replies.data &&
+          replies.data.children &&
+          replies.data.children.map(reply => {
+            const { id, body_html, author, created_utc, depth, replies } = reply.data;
+            return (
               <Comment
                 index={index}
-                key={reply.data.id}
-                body={reply.data.body_html}
-                author={reply.data.author}
-                created={reply.data.created_utc}
-                depth={reply.data.depth}
-                replies={reply.data.replies}
+                key={id}
+                body={body_html}
+                author={author}
+                created={created_utc}
+                depth={depth}
+                replies={replies}
               />
-            ))}
-        </div>
+            );
+          }
+        )}
       </div>
     </div>
   );
